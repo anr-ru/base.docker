@@ -1,0 +1,4 @@
+FROM fedora:21
+
+EXPOSE 7474 7575
+ 

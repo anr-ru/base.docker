@@ -1,0 +1,65 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <parent>    
+        <groupId>ru.anr</groupId>
+        <artifactId>base.platform.parent</artifactId>
+        <version>0.5-SNAPSHOT</version>
+    </parent>
+    
+    <artifactId>base.docker</artifactId>
+
+    <name>Base Utils for Docker</name>
+    <description>A set of utils for operating with Docker images from Java projects</description>
+    
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:ssh://@github.com/anr-ru/base.docker.git</connection>
+        <url>https://github.com/anr-ru/base.docker/</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>alex</id>
+            <name>Alexey Romanchuk</name>
+            <email>alexey.p.romanchuk@gmail.com</email>
+            <timezone>5</timezone>
+        </developer>
+    </developers>
+
+    <build>
+        <extensions>
+           <extension>
+              <groupId>org.apache.maven.wagon</groupId>
+              <artifactId>wagon-webdav</artifactId>
+              <version>1.0-beta-2</version>
+           </extension>
+        </extensions>
+    </build>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>ru.anr</groupId>
+            <artifactId>base.utils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ru.anr</groupId>
+            <artifactId>base.tests</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+              <groupId>com.github.docker-java</groupId>
+              <artifactId>docker-java</artifactId>
+        </dependency>
+    </dependencies>    
+
+</project>
