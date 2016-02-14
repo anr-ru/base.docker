@@ -174,7 +174,11 @@ public class DockerEngine extends BaseParent {
         });
 
         return start(image, name, c -> {
-            c.withCmd(StringUtils.split(cmd, " ")).withPortBindings(bindings).withEnv(envs);
+
+            c.withCmd(StringUtils.split(cmd, " ")).withPortBindings(bindings);
+            if (envs != null) {
+                c.withEnv(envs);
+            }
         });
     }
 
