@@ -31,12 +31,14 @@ import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerCmd;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.command.ExecCreateCmdResponse;
+import com.github.dockerjava.api.command.PullImageCmd;
 import com.github.dockerjava.api.model.BuildResponseItem;
 import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.ExposedPort;
 import com.github.dockerjava.api.model.Ports;
 import com.github.dockerjava.core.DockerClientBuilder;
 import com.github.dockerjava.core.command.BuildImageResultCallback;
+import com.github.dockerjava.core.command.PullImageResultCallback;
 
 /**
  * The Engine is a wrapper around Docker interfaces for mostly used cases.
@@ -124,6 +126,22 @@ public class DockerEngine extends BaseParent {
             }
         };
         docker.buildImageCmd(directory).withTag(tagToUse).exec(callback).awaitImageId();
+    }
+
+    /**
+     * Pulls the given image from the specified repository
+     * 
+     * @param registry
+     *            The registry to use
+     * @param repository
+     *            The repository
+     * @param tag
+     *            The tag
+     */
+    public void pull(String registry, String repository, String tag) {
+
+        PullImageCmd pull = docker.pullImageCmd(registry + "/" + repository).withTag(tag);
+        pull.exec(new PullImageResultCallback()).awaitSuccess();
     }
 
     /**
