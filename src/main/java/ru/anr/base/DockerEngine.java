@@ -233,7 +233,7 @@ public class DockerEngine extends BaseParent {
      */
     public Map<String, Container> getActive() {
 
-        return toMap(client().listContainersCmd().withShowAll(true).exec(), Container::getId, c -> c);
+        return toMap(client().listContainersCmd().withShowAll(false).exec(), Container::getId, c -> c);
     }
 
     // //////////////////////////// helpers ///////////////////////////////////
