@@ -157,14 +157,15 @@ public class DockerEngine extends BaseParent {
      */
     public String exec(String containerId, String... cmds) {
 
-        ExecCreateCmdResponse rs = docker.execCreateCmd(containerId).withAttachStdout(true).withCmd(cmds).exec();
+        ExecCreateCmdResponse rs = docker.execCreateCmd(containerId).withAttachStdout(true).withAttachStderr(true)
+                .withTty(true).withCmd(cmds).exec();
 
         /*
          * The s.trim() operation is required to remove some bad symbols from
          * the output
          */
-        return read(docker.execStartCmd(containerId).withExecId(rs.getId()).exec()).stream().map(s -> s.trim())
-                .collect(Collectors.joining("\n"));
+        return read(docker.execStartCmd(containerId).withExecId(rs.getId()).exec()).stream()
+                .map(s -> s.replaceAll("[^\\x20-\\x7E]", "")).collect(Collectors.joining("\n"));
     }
 
     /**
