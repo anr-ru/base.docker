@@ -185,13 +185,7 @@ public class DockerEngine extends BaseParent {
      */
     public String start(String image, String name, String cmd, String[] envs, Integer... portPairs) {
 
-        Map<Integer, Integer> map = toMap(portPairs);
-        final Ports bindings = new Ports();
-
-        map.forEach((h, c) -> {
-            bindings.bind(ExposedPort.tcp(c), Ports.Binding(h));
-        });
-
+        final Ports bindings = getBindings(portPairs);
         return start(image, name, c -> {
 
             c.withCmd(StringUtils.split(cmd, " ")).withPortBindings(bindings);
@@ -199,6 +193,25 @@ public class DockerEngine extends BaseParent {
                 c.withEnv(envs);
             }
         });
+    }
+
+    /**
+     * Converts a plain port binding to the special structure suitable for
+     * processing by the engine.
+     * 
+     * @param portPairs
+     *            The pairs (host,container) for the required ports
+     * @return A {@link Ports} object instance
+     */
+    public static Ports getBindings(Integer... portPairs) {
+
+        Map<Integer, Integer> map = toMap(portPairs);
+        final Ports bindings = new Ports();
+
+        map.forEach((h, c) -> {
+            bindings.bind(ExposedPort.tcp(c), Ports.Binding(h));
+        });
+        return bindings;
     }
 
     /**
@@ -235,6 +248,22 @@ public class DockerEngine extends BaseParent {
     public Map<String, Container> getActive() {
 
         return toMap(client().listContainersCmd().withShowAll(false).exec(), Container::getId, c -> c);
+    }
+
+    /**
+     * Committing the container to fix and store all changes as a new image
+     * 
+     * @param containerId
+     *            The identifier of the container
+     * @param repository
+     *            The name of a repository to use
+     * @param tag
+     *            The tag to use
+     * @return The identifier of the newly created image
+     */
+    public String commit(String containerId, String repository, String tag) {
+
+        return docker.commitCmd(containerId).withRepository(repository).withTag(tag).exec();
     }
 
     // //////////////////////////// helpers ///////////////////////////////////

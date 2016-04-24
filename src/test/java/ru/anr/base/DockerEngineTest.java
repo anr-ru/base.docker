@@ -11,10 +11,10 @@ import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 
-import ru.anr.base.tests.BaseTestCase;
-
 import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.Container.Port;
+
+import ru.anr.base.tests.BaseTestCase;
 
 /**
  * Tests for the Engine
@@ -70,7 +70,23 @@ public class DockerEngineTest extends BaseTestCase {
         Assert.assertEquals(17474, p.getPublicPort().intValue());
         Assert.assertEquals("tcp", p.getType());
 
+        String newImage = e.commit(id, "fedora", "21x");
+
         e.stop(id);
         e.remove(id);
+
+        // Running a container based on the recent image
+        id = e.start("fedora:21x", guid(), x -> {
+            x.withCmd("sleep", "15s");
+        });
+
+        // Checking the variable exists
+        rs = e.exec(id, "env");
+        assertContains(rs, "CC_NAME=Me");
+
+        e.stop(id);
+        e.remove(id);
+
+        e.client().removeImageCmd(newImage);
     }
 }
