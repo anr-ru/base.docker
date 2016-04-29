@@ -104,6 +104,21 @@ public class DockerEngine extends BaseParent {
     }
 
     /**
+     * Removes (forcedly) the specified image
+     * 
+     * @param imageId
+     *            The identifier of the image
+     */
+    public void removeImage(String imageId) {
+
+        logger.info("Removing the image: {}", imageId);
+
+        runIgnored(x -> {
+            docker.removeImageCmd(imageId).withForce().exec();
+        });
+    }
+
+    /**
      * Builds an image by specified parameters
      * 
      * @param directory
