@@ -7,7 +7,8 @@
         </encoder>
     </appender>
 
-    <logger name="ru.anr" level="DEBUG"/>
+    <logger name="ru.anr" level="INFO"/>
+    <logger name="com.github.dockerjava" level="INFO"/>
 
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
