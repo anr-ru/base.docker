@@ -87,6 +87,6 @@ public class DockerEngineTest extends BaseTestCase {
         e.stop(id);
         e.remove(id);
 
-        e.client().removeImageCmd(newImage).withForce().exec();
+        e.removeImage(newImage);
     }
 }

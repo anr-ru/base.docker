@@ -60,6 +60,6 @@
               <groupId>com.github.docker-java</groupId>
               <artifactId>docker-java</artifactId>
         </dependency>
-    </dependencies>    
+    </dependencies>
 
 </project>

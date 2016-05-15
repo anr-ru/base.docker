@@ -15,14 +15,11 @@
  */
 package ru.anr.base;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,13 +29,18 @@ import com.github.dockerjava.api.command.CreateContainerCmd;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.command.ExecCreateCmdResponse;
 import com.github.dockerjava.api.command.PullImageCmd;
+import com.github.dockerjava.api.command.PushImageCmd;
+import com.github.dockerjava.api.model.AuthConfig;
 import com.github.dockerjava.api.model.BuildResponseItem;
 import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.ExposedPort;
+import com.github.dockerjava.api.model.Identifier;
 import com.github.dockerjava.api.model.Ports;
 import com.github.dockerjava.core.DockerClientBuilder;
 import com.github.dockerjava.core.command.BuildImageResultCallback;
+import com.github.dockerjava.core.command.ExecStartResultCallback;
 import com.github.dockerjava.core.command.PullImageResultCallback;
+import com.github.dockerjava.core.command.PushImageResultCallback;
 
 /**
  * The Engine is a wrapper around Docker interfaces for mostly used cases.
@@ -114,7 +116,7 @@ public class DockerEngine extends BaseParent {
         logger.info("Removing the image: {}", imageId);
 
         runIgnored(x -> {
-            docker.removeImageCmd(imageId).withForce().exec();
+            docker.removeImageCmd(imageId).withForce(true).exec();
         });
     }
 
@@ -160,6 +162,27 @@ public class DockerEngine extends BaseParent {
     }
 
     /**
+     * Pushing the image given by separate parts
+     * 
+     * @param repository
+     *            The name of a repository
+     * @param tag
+     *            A tag
+     * @param cfg
+     *            The configuration for accessing to repositories
+     */
+    public void push(String repository, String tag, AuthConfig cfg) {
+
+        Identifier identifier = Identifier.fromCompoundString(repository + ":" + tag);
+
+        PushImageCmd push = docker.pushImageCmd(identifier);
+        if (cfg != null) {
+            push.withAuthConfig(cfg);
+        }
+        push.exec(new PushImageResultCallback()).awaitSuccess();
+    }
+
+    /**
      * Executes the command line specified in arguments in a container
      * 
      * (like 'cat /tmp/txt.txt')
@@ -175,12 +198,19 @@ public class DockerEngine extends BaseParent {
         ExecCreateCmdResponse rs = docker.execCreateCmd(containerId).withAttachStdout(true).withAttachStderr(true)
                 .withTty(true).withCmd(cmds).exec();
 
-        /*
-         * The s.trim() operation is required to remove some bad symbols from
-         * the output
-         */
-        return read(docker.execStartCmd(containerId).withExecId(rs.getId()).exec()).stream()
-                .map(s -> s.replaceAll("[^\\x20-\\x7E]", "")).collect(Collectors.joining("\n"));
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        try {
+
+            docker.execStartCmd(containerId).withExecId(rs.getId()).exec(new ExecStartResultCallback(out, out))
+                    .awaitCompletion();
+
+            String s = out.toString(DEFAULT_CHARSET.name());
+            return s == null ? "" : s.replaceAll("[^\\x20-\\x7E]", "");
+
+        } catch (InterruptedException | UnsupportedEncodingException ex) {
+            throw new ApplicationException(ex);
+        }
     }
 
     /**
@@ -279,26 +309,6 @@ public class DockerEngine extends BaseParent {
     public String commit(String containerId, String repository, String tag) {
 
         return docker.commitCmd(containerId).withRepository(repository).withTag(tag).exec();
-    }
-
-    // //////////////////////////// helpers ///////////////////////////////////
-
-    /**
-     * Reads data as a list of strings
-     * 
-     * @param response
-     *            A response
-     * @return The list of strings
-     */
-    private List<String> read(InputStream response) {
-
-        try {
-            return IOUtils.readLines(response, "UTF-8");
-        } catch (IOException ex) {
-            throw new ApplicationException(ex);
-        } finally {
-            IOUtils.closeQuietly(response);
-        }
     }
 
     // /////////////////////////////////////////////////////////////////////////
