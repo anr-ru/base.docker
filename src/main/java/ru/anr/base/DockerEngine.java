@@ -148,16 +148,22 @@ public class DockerEngine extends BaseParent {
     /**
      * Pulls the given image from the specified repository
      * 
-     * @param registry
-     *            The registry to use
      * @param repository
-     *            The repository
-     * @param tag
-     *            The tag
+     *            The repository (the full name)
+     * @param cfg
+     *            The authenticate configuration
      */
-    public void pull(String registry, String repository, String tag) {
+    public void pull(String repository, AuthConfig cfg) {
 
-        PullImageCmd pull = docker.pullImageCmd(registry + "/" + repository).withTag(tag);
+        Identifier identifier = Identifier.fromCompoundString(repository);
+
+        PullImageCmd pull = docker.pullImageCmd(identifier.repository.name);
+        if (identifier.tag.isPresent()) {
+            pull.withTag(identifier.tag.get());
+        }
+        if (cfg != null) {
+            pull.withAuthConfig(cfg);
+        }
         pull.exec(new PullImageResultCallback()).awaitSuccess();
     }
 

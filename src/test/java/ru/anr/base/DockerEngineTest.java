@@ -13,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.Container.Port;
+import com.github.dockerjava.api.model.Identifier;
 
 import ru.anr.base.tests.BaseTestCase;
 
@@ -45,7 +46,7 @@ public class DockerEngineTest extends BaseTestCase {
 
         Map<String, Container> map = e.getActive();
 
-        Assert.assertTrue(map.size() >= 1);
+        Assert.assertFalse(map.isEmpty());
         Assert.assertTrue(map.containsKey(id));
 
         Container c = map.get(id);
@@ -88,5 +89,17 @@ public class DockerEngineTest extends BaseTestCase {
         e.remove(id);
 
         e.removeImage(newImage);
+    }
+
+    /**
+     * Checking how the parse works
+     */
+    @Test
+    public void parsing() {
+
+        Identifier i = Identifier.fromCompoundString("registry.my.com/somerepo:1.0.0.2x");
+        Assert.assertEquals("registry.my.com/somerepo", i.repository.name);
+        Assert.assertEquals("somerepo", i.repository.getPath());
+        Assert.assertEquals("1.0.0.2x", i.tag.get());
     }
 }
