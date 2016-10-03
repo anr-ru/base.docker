@@ -12,7 +12,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.github.dockerjava.api.model.Container;
-import com.github.dockerjava.api.model.ContainerPort;
+import com.github.dockerjava.api.model.Container.Port;
 import com.github.dockerjava.api.model.Identifier;
 
 import ru.anr.base.tests.BaseTestCase;
@@ -59,9 +59,9 @@ public class DockerEngineTest extends BaseTestCase {
         assertContains(rs, "CC_NAME=Me");
 
         Assert.assertEquals(2, c.getPorts().length);
-        ContainerPort[] ports = c.getPorts();
+        Port[] ports = c.getPorts();
 
-        ContainerPort p = first(filter(list(ports), i -> i.getPrivatePort().intValue() == 7575));
+        Port p = first(filter(list(ports), i -> i.getPrivatePort().intValue() == 7575));
         Assert.assertNotNull(p);
 
         Assert.assertEquals(17575, p.getPublicPort().intValue());
