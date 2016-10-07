@@ -76,7 +76,6 @@ public class DockerEngine extends BaseParent {
         logger.info("Using DOCKER URL: {}", value);
 
         docker = DockerClientBuilder.getInstance(value).build();
-
     }
 
     /**
