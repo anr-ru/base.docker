@@ -41,6 +41,7 @@ import com.github.dockerjava.core.command.BuildImageResultCallback;
 import com.github.dockerjava.core.command.ExecStartResultCallback;
 import com.github.dockerjava.core.command.PullImageResultCallback;
 import com.github.dockerjava.core.command.PushImageResultCallback;
+import com.github.dockerjava.core.command.WaitContainerResultCallback;
 
 /**
  * The Engine is a wrapper around Docker interfaces for mostly used cases.
@@ -72,10 +73,12 @@ public class DockerEngine extends BaseParent {
         /*
          * For MacOS X and Linux the way to communicate may differ
          */
-        String value = System.getProperty("docker.io.url", "unix:///var/run/docker.sock");
-        logger.info("Using DOCKER URL: {}", value);
+        // String value = System.getProperty("docker.io.url",
+        // "unix:///var/run/docker.sock");
+        // logger.info("Using DOCKER URL: {}", value);
 
-        docker = DockerClientBuilder.getInstance(value).build();
+        docker = DockerClientBuilder.getInstance().build();
+
     }
 
     /**
@@ -88,7 +91,7 @@ public class DockerEngine extends BaseParent {
 
         runIgnored(x -> {
             docker.stopContainerCmd(containerId).exec();
-            docker.waitContainerCmd(containerId).exec();
+            docker.waitContainerCmd(containerId).exec(new WaitContainerResultCallback()).awaitCompletion();
         });
     }
 
@@ -260,7 +263,7 @@ public class DockerEngine extends BaseParent {
         final Ports bindings = new Ports();
 
         map.forEach((h, c) -> {
-            bindings.bind(ExposedPort.tcp(c), Ports.Binding(h));
+            bindings.bind(ExposedPort.tcp(c), Ports.Binding.bindPort(h));
         });
         return bindings;
     }
