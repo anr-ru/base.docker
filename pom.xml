@@ -57,9 +57,23 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>com.kohlschutter.junixsocket</groupId>
+            <artifactId>junixsocket-common</artifactId>
+            <version>${junixsocket.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kohlschutter.junixsocket</groupId>
+            <artifactId>junixsocket-native-common</artifactId>
+            <version>${junixsocket.version}</version>
+        </dependency>        
+        <dependency>
             <groupId>com.github.docker-java</groupId>
             <artifactId>docker-java</artifactId>
         </dependency>
     </dependencies>
+
+    <properties>
+        <junixsocket.version>2.0.4</junixsocket.version>
+    </properties>
 
 </project>
