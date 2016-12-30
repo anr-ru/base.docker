@@ -215,7 +215,7 @@ public class DockerEngine extends BaseParent {
                     .awaitCompletion();
 
             String s = out.toString(DEFAULT_CHARSET.name());
-            return s == null ? "" : s.replaceAll("[^\\x20-\\x7E]", "");
+            return s == null ? "" : s.replaceAll("[^\\x20-\\x7E\n\r]", "");
 
         } catch (InterruptedException | UnsupportedEncodingException ex) {
             throw new ApplicationException(ex);
