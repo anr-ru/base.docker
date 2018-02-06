@@ -128,24 +128,24 @@ public class DockerEngine extends BaseParent {
      * 
      * @param directory
      *            A directory with "Dockerfile"
-     * @param tagToUse
-     *            A local tag to use for the image
+     * @param repository
+     *            A repository to use
+     * @param tag
+     *            A tag to use
      */
-    public void build(File directory, String tagToUse) {
+    public void build(File directory, String repository, String tag) {
 
         BuildImageResultCallback callback = new BuildImageResultCallback() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             public void onNext(BuildResponseItem item) {
 
-                logger.debug(item.getStream());
+                logger.debug("Build: {}", item.getStream());
                 super.onNext(item);
             }
         };
-        docker.buildImageCmd(directory).withTag(tagToUse).exec(callback).awaitImageId();
+        String imageId = docker.buildImageCmd(directory).exec(callback).awaitImageId();
+        docker.tagImageCmd(imageId, repository, tag).exec();
     }
 
     /**

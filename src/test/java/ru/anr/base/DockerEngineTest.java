@@ -3,6 +3,7 @@
  */
 package ru.anr.base;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
@@ -39,7 +40,8 @@ public class DockerEngineTest extends BaseTestCase {
 
         DockerEngine e = new DockerEngine();
 
-        e.build(new ClassPathResource("Dockerfile").getFile(), "xxx:latest");
+        File f = new ClassPathResource("Dockerfile").getFile();
+        e.build(f, "xxx", "latest");
 
         String name = guid();
         String id = e.start("xxx:latest", name, "sleep 10s", new String[]{ "CC_NAME=Me" }, 17474, 7474, 17575, 7575);
