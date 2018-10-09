@@ -1,1 +1,6 @@
 /target
+
+/.settings
+.pmd
+.project
+.classpath
