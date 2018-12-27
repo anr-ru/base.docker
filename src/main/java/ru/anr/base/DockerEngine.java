@@ -68,8 +68,19 @@ public class DockerEngine extends BaseParent {
      */
     public DockerEngine() {
 
-        super();
+        this(null);
+    }
 
+    /**
+     * This constructor creates a client instance in case if the docker host
+     * differs from the default.
+     * 
+     * @param dockerUrl
+     *            The Docker Url (e.g.tcp://docker:2375)
+     */
+    public DockerEngine(String dockerUrl) {
+
+        super();
         /*
          * For MacOS X and Linux the way to communicate may differ
          */
@@ -77,8 +88,8 @@ public class DockerEngine extends BaseParent {
         // "unix:///var/run/docker.sock");
         // logger.info("Using DOCKER URL: {}", value);
 
-        docker = DockerClientBuilder.getInstance().build();
-
+        docker = ((isEmpty(dockerUrl)) ? //
+                DockerClientBuilder.getInstance() : DockerClientBuilder.getInstance(dockerUrl)).build();
     }
 
     /**
