@@ -5,13 +5,13 @@
     <parent>    
         <groupId>ru.anr</groupId>
         <artifactId>base.platform.parent</artifactId>
-        <version>0.5-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     
     <artifactId>base.docker</artifactId>
 
     <name>Base Utils for Docker</name>
-    <description>A set of utils for operating with Docker images from Java projects</description>
+    <description>A set of utils for working with Docker images/container from Java projects</description>
     
     <licenses>
         <license>

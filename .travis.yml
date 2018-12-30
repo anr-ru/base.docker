@@ -6,11 +6,22 @@ cache:
   directories:
   - "$HOME/.cache"
 before_install:
-  - cp .travis.settings.xml $HOME/.m2/settings.xml
+  - cp ./.mvn/ci-settings.xml $HOME/.m2/settings.xml
+
+stages:
+  - test
+  - deploy
+test:
+  provider: script
+  script: "mvn -P ci install"
+  skip_cleanup: false
+  on:
+    all_branches: true
 
 deploy:
   provider: script
-  script: "cp .travis.settings.xml $HOME/.m2/settings.xml && mvn deploy"
-  skip_cleanup: true
+  script: "mvn -P ci deploy"
+  skip_cleanup: false
+  condition: "$TRAVIS_TAG = ^v.*$"
   on:
-    all_branches: true
+    tags: true

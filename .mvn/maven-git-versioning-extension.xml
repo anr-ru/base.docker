@@ -1,0 +1,25 @@
+<configuration>
+    <branches>
+        <branch>
+            <pattern>master</pattern>
+            <!-- i.e. 1.0.1-0fc2045 . Force to use tags-->
+            <versionFormat>${version}-${commit.short}</versionFormat>
+        </branch>
+        <branch>
+             <pattern>.*</pattern>
+             <!-- i.e. MyFeature-SNAPSHOT -->
+             <versionFormat>${branch}-SNAPSHOT</versionFormat>
+         </branch>
+    </branches>
+    <tags>
+        <tag>
+            <pattern>v.*</pattern>
+            <prefix>v</prefix>
+            <!-- i.e. '1.0.1' . Force to use tags for use this dependency somewhere-->
+            <versionFormat>${version.release}</versionFormat>
+        </tag>
+    </tags>
+    <commit>
+        <versionFormat>${commit}</versionFormat>
+    </commit>
+</configuration>
