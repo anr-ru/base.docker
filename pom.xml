@@ -65,10 +65,12 @@
         <dependency>
             <groupId>ru.anr</groupId>
             <artifactId>base.utils</artifactId>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>ru.anr</groupId>
             <artifactId>base.tests</artifactId>
+            <version>1.0.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
