@@ -9,6 +9,7 @@
     </parent>
     
     <artifactId>base.docker</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
 
     <name>Base Utils for Docker</name>
     <description>A set of utils for working with Docker images/container from Java projects</description>
