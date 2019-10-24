@@ -14,7 +14,7 @@ before_install:
 stages:
   - test
   - deploy
-  - deploy-master
+
 test:
   provider: script
   script: "mvn -P ci install"
@@ -26,14 +26,6 @@ deploy:
   provider: script
   script: "mvn -P ci deploy"
   skip_cleanup: false
-  condition: "$TRAVIS_TAG = ^v.*$"
+  condition: "$TRAVIS_TAG = ^v.*$ OR branch = master"
   on:
     tags: true
-
-deploy-master:
-  provider: script
-  script: "mvn -P ci deploy"
-  skip_cleanup: false
-  branches:
-    only:
-    - master    
