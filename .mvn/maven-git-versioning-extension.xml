@@ -20,6 +20,6 @@
         </tag>
     </tags>
     <commit>
-        <versionFormat>${commit}</versionFormat>
+        <versionFormat>${version}-${commit.short}</versionFormat>
     </commit>
 </configuration>
