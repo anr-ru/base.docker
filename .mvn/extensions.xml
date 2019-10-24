@@ -4,7 +4,7 @@
     <extension>
         <groupId>me.qoomon</groupId>
         <artifactId>maven-git-versioning-extension</artifactId>
-        <version>LATEST</version>
+        <version>3.3.0</version>
     </extension>
 
 </extensions>
