@@ -24,8 +24,6 @@ test:
 
 deploy:
   provider: script
-  script: "mvn -P ci deploy"
+  script: "mvn -P ci deploy -DskipTests"
   skip_cleanup: false
   condition: "$TRAVIS_TAG = ^v.*$ OR branch = master"
-  on:
-    tags: true
