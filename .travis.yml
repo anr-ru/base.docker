@@ -1,5 +1,7 @@
 sudo: false
 language: java
+jdk:
+  - oraclejdk8
 services:
 - docker
 cache:
@@ -11,6 +13,7 @@ before_install:
 stages:
   - test
   - deploy
+  - deploy-master
 test:
   provider: script
   script: "mvn -P ci install"
@@ -25,3 +28,11 @@ deploy:
   condition: "$TRAVIS_TAG = ^v.*$"
   on:
     tags: true
+
+deploy-master:
+  provider: script
+  script: "mvn -P ci deploy"
+  skip_cleanup: false
+  branches:
+    only:
+    - master    
