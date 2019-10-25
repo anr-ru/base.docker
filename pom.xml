@@ -36,31 +36,6 @@
         </developer>
     </developers>
     
-    <distributionManagement>
-      <repository>
-        <id>packagecloud-travis</id>
-        <url>
-          packagecloud+https://packagecloud.io/ruanr/baseplatform
-        </url>
-      </repository>
-      <snapshotRepository>
-        <id>packagecloud-travis</id>
-        <url>
-          packagecloud+https://packagecloud.io/ruanr/baseplatform
-        </url>
-      </snapshotRepository>
-    </distributionManagement>
-
-    <build>
-        <extensions>
-           <extension>
-              <groupId>org.apache.maven.wagon</groupId>
-              <artifactId>wagon-webdav</artifactId>
-              <version>1.0-beta-2</version>
-           </extension>
-        </extensions>
-    </build>
-
 
     <dependencies>
         <dependency>
