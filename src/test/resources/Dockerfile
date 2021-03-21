@@ -1,4 +1,4 @@
-FROM fedora:21
+FROM ubuntu:18.04
 
 EXPOSE 7474 7575
  

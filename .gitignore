@@ -4,3 +4,5 @@
 .pmd
 .project
 .classpath
+/.idea/
+/base.docker.iml
