@@ -1,20 +1,19 @@
-<configuration>
-   <branch>
-       <pattern>master</pattern>
-       <!-- i.e. 1.0.1-0fc2045 . Force to use tags-->
-       <versionFormat>${version}-${commit.short}</versionFormat>
-   </branch>
-   <branch>
+<gitVersioning>
+    <branch>
+        <pattern>master</pattern>
+        <versionFormat>${version}</versionFormat>
+    </branch>
+    <branch>
         <pattern>.*</pattern>
         <!-- i.e. API-123-SNAPSHOT -->
         <versionFormat>${branch}-SNAPSHOT</versionFormat>
-   </branch>
-   <tag>
-       <pattern><![CDATA[v.*]]></pattern>
-       <!-- i.e. '1.0.1' . Force to use tags for use this dependency somewhere-->
-       <versionFormat>${version.release}</versionFormat>
-   </tag>
-   <commit>
-       <versionFormat>${version}-${commit.short}</versionFormat>
-   </commit>
-</configuration>
+    </branch>
+    <tag>
+        <pattern><![CDATA[v(?<tagVersion>[0-9].*)]]></pattern>
+        <!-- i.e. '2', '1.0.1'. Force to use tags for use this dependency somewhere-->
+        <versionFormat>${tagVersion}</versionFormat>
+    </tag>
+    <commit>
+        <versionFormat>${version}-${commit.short}</versionFormat>
+    </commit>
+</gitVersioning>
