@@ -1,19 +1,20 @@
-<gitVersioning>
+<configuration>
+    <preferTags>true</preferTags>
     <branch>
         <pattern>master</pattern>
-        <versionFormat>${version}</versionFormat>
+        <versionFormat>${version}-${commit.short}</versionFormat>
     </branch>
     <branch>
         <pattern>.*</pattern>
-        <!-- i.e. API-123-SNAPSHOT -->
+        <!-- i.e. DEV-SNAPSHOT -->
         <versionFormat>${branch}-SNAPSHOT</versionFormat>
     </branch>
     <tag>
-        <pattern><![CDATA[v(?<tagVersion>[0-9].*)]]></pattern>
+        <pattern>v([0-9].*)</pattern>
         <!-- i.e. '2', '1.0.1'. Force to use tags for use this dependency somewhere-->
-        <versionFormat>${tagVersion}</versionFormat>
+        <versionFormat>${1}</versionFormat>
     </tag>
     <commit>
         <versionFormat>${version}-${commit.short}</versionFormat>
     </commit>
-</gitVersioning>
+</configuration>

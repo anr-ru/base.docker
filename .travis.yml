@@ -4,18 +4,24 @@ language: java
 jdk:
   - oraclejdk8
 services:
-- docker
+  - docker
 cache:
   directories:
-  - "$HOME/.cache"
+    - "$HOME/.cache"
+
 before_install:
   - cp ./.mvn/ci-settings.xml $HOME/.m2/settings.xml
+  - wget -P $HOME https://downloads.apache.org/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+  - tar xzvf $HOME/apache-maven-3.6.3-bin.tar.gz -C $HOME
+  - export PATH=$HOME/apache-maven-3.6.3/bin:$PATH
+  - mvn -v
 
 script:
-  - "mvn -P ci install"
+  - "mvn -P ci install -Dversioning.disable=false"
 
 deploy:
-  provider: script
-  script: "mvn -P ci deploy -DskipTests"
-  skip_cleanup: false
-  condition: "$TRAVIS_TAG = ^v.*$ OR branch = master"
+  - provider: script
+    script: "mvn -P ci deploy -DskipTests -Dversioning.disable=false"
+    skip_cleanup: false
+    on:
+      tags: true
