@@ -53,7 +53,7 @@ public class DockerEngineTest extends BaseTestCase {
 
         assertContains(rs, "CC_NAME=Me");
 
-        Assertions.assertEquals(2, c.getPorts().length);
+        Assertions.assertEquals(4, c.getPorts().length);
         ContainerPort[] ports = c.getPorts();
 
         ContainerPort p = first(filter(list(ports), i -> Integer.valueOf(7575).equals(i.getPrivatePort())));

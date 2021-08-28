@@ -134,7 +134,7 @@ public class DockerEngine extends BaseParent {
      * Pulls the given image from the specified repository
      *
      * @param repository The repository (the full name)
-     * @param cfg        The authenticate configuration
+     * @param cfg        The authentication configuration
      */
     public void pull(String repository, AuthConfig cfg) {
 
@@ -185,7 +185,8 @@ public class DockerEngine extends BaseParent {
      */
     public String exec(String containerId, String... cmds) {
 
-        ExecCreateCmdResponse rs = docker.execCreateCmd(containerId).withAttachStdout(true).withAttachStderr(true)
+        ExecCreateCmdResponse rs = docker.execCreateCmd(containerId)
+                .withAttachStdout(true).withAttachStderr(true)
                 .withTty(true).withCmd(cmds).exec();
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -220,7 +221,7 @@ public class DockerEngine extends BaseParent {
         final Ports bindings = getBindings(portPairs);
         return start(image, name, c -> {
             Objects.requireNonNull(c.withCmd(StringUtils.split(cmd, " ")).
-                    getHostConfig())
+                            getHostConfig())
                     .withPortBindings(bindings);
             if (envs != null) {
                 c.withEnv(envs);
