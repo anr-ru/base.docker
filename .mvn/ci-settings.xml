@@ -7,13 +7,13 @@
             <id>repositories</id>
             <activation><activeByDefault>true</activeByDefault></activation>
             <repositories>
-        		<repository>
-        		    <id>packagecloud-travis</id>
-        		    <name>Base Platform</name>
-        		    <url>https://packagecloud.io/ruanr/baseplatform/maven2</url>
-        		    <releases><enabled>true</enabled></releases>
-        		    <snapshots><enabled>true</enabled></snapshots>
-        		</repository>
+    		<repository>
+		    <id>packagecloud-travis</id>
+    		    <name>Base Platform</name>
+    		    <url>https://packagecloud.io/ruanr/baseplatform/maven2</url>
+    		    <releases><enabled>true</enabled></releases>
+    		    <snapshots><enabled>true</enabled></snapshots>
+    		</repository>
             </repositories>
         </profile>
     </profiles>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 the original author or authors.
+ * Copyright 2014-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -41,9 +41,6 @@ import java.util.function.Consumer;
  */
 public class DockerEngine extends BaseParent {
 
-    /**
-     * Logger
-     */
     private static final Logger logger = LoggerFactory.getLogger(DockerEngine.class);
 
     /**
@@ -55,7 +52,6 @@ public class DockerEngine extends BaseParent {
      * This constructor creates a client instance
      */
     public DockerEngine() {
-
         this(null);
     }
 
@@ -85,7 +81,12 @@ public class DockerEngine extends BaseParent {
 
         runIgnored(x -> {
             docker.stopContainerCmd(containerId).exec();
-            docker.waitContainerCmd(containerId).exec(new WaitContainerResultCallback()).awaitCompletion();
+            try {
+                docker.waitContainerCmd(containerId).exec(new WaitContainerResultCallback()).awaitCompletion();
+                return true;
+            } catch (InterruptedException ex) {
+                throw new ApplicationException(ex);
+            }
         });
     }
 
@@ -198,10 +199,10 @@ public class DockerEngine extends BaseParent {
                     .exec(new ExecStartResultCallback(out, out))
                     .awaitCompletion();
 
-            String s = out.toString(DEFAULT_CHARSET.name());
+            String s = out.toString(DEFAULT_CHARSET);
             return s == null ? "" : s.replaceAll("[^\\x20-\\x7E\n\r]", "");
 
-        } catch (InterruptedException | UnsupportedEncodingException ex) {
+        } catch (InterruptedException ex) {
             throw new ApplicationException(ex);
         }
     }
@@ -274,7 +275,6 @@ public class DockerEngine extends BaseParent {
      * @return A map which has the identifiers of containers as the keys
      */
     public Map<String, Container> getActive() {
-
         return toMap(client().listContainersCmd().withShowAll(false).exec(), Container::getId, c -> c);
     }
 
