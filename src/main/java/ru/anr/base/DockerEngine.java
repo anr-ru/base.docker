@@ -78,12 +78,10 @@ public class DockerEngine extends BaseParent {
      * @param containerId The container id
      */
     public void stop(String containerId) {
-
         runIgnored(x -> {
             docker.stopContainerCmd(containerId).exec();
             try {
                 docker.waitContainerCmd(containerId).exec(new WaitContainerResultCallback()).awaitCompletion();
-                return true;
             } catch (InterruptedException ex) {
                 throw new ApplicationException(ex);
             }
@@ -181,7 +179,7 @@ public class DockerEngine extends BaseParent {
      * (like 'cat /tmp/txt.txt')
      *
      * @param containerId The identifier of a container
-     * @param cmds        List of commands to execute inside of the container
+     * @param cmds        List of commands to execute inside the container
      * @return The command output
      */
     public String exec(String containerId, String... cmds) {

@@ -41,7 +41,7 @@
         <dependency>
             <groupId>org.anrruf</groupId>
             <artifactId>base.utils</artifactId>
-            <version>2.0.0-SNAPSHOT-84d1b9e</version>
+            <version>2.0.0-SNAPSHOT-1b7ceba</version>
         </dependency>
         <dependency>
             <groupId>org.anrruf</groupId>
