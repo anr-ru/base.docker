@@ -66,6 +66,16 @@
         <dependency>
             <groupId>com.github.docker-java</groupId>
             <artifactId>docker-java</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.kohlschutter.junixsocket</groupId>
+                    <artifactId>junixsocket-common</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.kohlschutter.junixsocket</groupId>
+                    <artifactId>junixsocket-native-common</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 

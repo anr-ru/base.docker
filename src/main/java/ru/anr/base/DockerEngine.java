@@ -215,7 +215,7 @@ public class DockerEngine extends BaseParent {
      * @param portPairs The pairs with bindings (host,container,host,container)
      * @return The identifier of the container
      */
-    public String start(String image, String name, String cmd, String[] envs, Integer... portPairs) {
+    public String start(String image, String name, String cmd, String[] envs, Consumer<CreateContainerCmd> callback, Integer... portPairs) {
 
         final Ports bindings = getBindings(portPairs);
         return start(image, name, c -> {
@@ -225,7 +225,13 @@ public class DockerEngine extends BaseParent {
             if (envs != null) {
                 c.withEnv(envs);
             }
+            if (callback != null) {
+                callback.accept(c);
+            }
         });
+    }
+    public String start(String image, String name, String cmd, String[] envs, Integer... portPairs) {
+        return start(image, name, cmd, envs, null, portPairs);
     }
 
     /**
