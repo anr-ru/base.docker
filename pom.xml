@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.anrruf</groupId>
         <artifactId>base.platform.parent</artifactId>
-        <version>2.0.0-SNAPSHOT-991587b</version>
+        <version>2.0.3</version>
     </parent>
 
     <artifactId>base.docker</artifactId>
@@ -36,17 +36,16 @@
         </developer>
     </developers>
 
-
     <dependencies>
         <dependency>
             <groupId>org.anrruf</groupId>
             <artifactId>base.utils</artifactId>
-            <version>2.0.0-SNAPSHOT-1b7ceba</version>
+            <version>2.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.anrruf</groupId>
             <artifactId>base.tests</artifactId>
-            <version>2.0.0-SNAPSHOT-dc74922</version>
+            <version>2.0.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
