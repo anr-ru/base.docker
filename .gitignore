@@ -1,8 +1,7 @@
 /target
-
 /.settings
 .pmd
 .project
 .classpath
 /.idea/
-/base.docker.iml
+*.iml
