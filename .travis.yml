@@ -8,6 +8,9 @@ cache:
   directories:
     - "$HOME/.cache"
 
+services:
+  - docker
+
 before_install:
   - cp ./.mvn/ci-settings.xml $HOME/.m2/settings.xml
   - wget --no-check-certificate https://dlcdn.apache.org/maven/maven-3/3.9.3/binaries/apache-maven-3.9.3-bin.tar.gz
