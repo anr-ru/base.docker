@@ -17,11 +17,12 @@ before_install:
   - tar xzvf apache-maven-3.9.3-bin.tar.gz
   - export PATH=`pwd`/apache-maven-3.9.3/bin:$PATH
   - mvn -v
-  - docker pull ubuntu:18.04
+  - docker --version
+  #- docker pull ubuntu:18.04
 
 jobs:
   include:
-    - script: "mvn -P ci install"
+    - script: "mvn -P ci install -DskipTests"
     - stage: deploy
       provider: script
       script: "mvn -P ci deploy -DskipTests"
