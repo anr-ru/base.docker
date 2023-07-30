@@ -10,9 +10,9 @@ cache:
 
 before_install:
   - cp ./.mvn/ci-settings.xml $HOME/.m2/settings.xml
-  - wget --no-check-certificate https://dlcdn.apache.org/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
-  - tar xzvf apache-maven-3.6.3-bin.tar.gz
-  - export PATH=`pwd`/apache-maven-3.6.3/bin:$PATH
+  - wget --no-check-certificate https://dlcdn.apache.org/maven/maven-3/3.9.3/binaries/apache-maven-3.9.3-bin.tar.gz
+  - tar xzvf apache-maven-3.9.3-bin.tar.gz
+  - export PATH=`pwd`/apache-maven-3.9.3/bin:$PATH
   - mvn -v
 
 jobs:
@@ -23,4 +23,4 @@ jobs:
       script: "mvn -P ci deploy -DskipTests"
       on:
         tags: true
-        branch: master
+        branches: true

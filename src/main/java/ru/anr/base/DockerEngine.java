@@ -1,5 +1,5 @@
 /*
- * Copyright 2014-2022 the original author or authors.
+ * Copyright 2014-2023 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
@@ -197,10 +197,10 @@ public class DockerEngine extends BaseParent {
                     .exec(new ExecStartResultCallback(out, out))
                     .awaitCompletion();
 
-            String s = out.toString(DEFAULT_CHARSET);
+            String s = out.toString(String.valueOf(DEFAULT_CHARSET));
             return s == null ? "" : s.replaceAll("[^\\x20-\\x7E\n\r]", "");
 
-        } catch (InterruptedException ex) {
+        } catch (InterruptedException | UnsupportedEncodingException  ex) {
             throw new ApplicationException(ex);
         }
     }
@@ -213,6 +213,7 @@ public class DockerEngine extends BaseParent {
      * @param cmd       The command to use
      * @param envs      The en
      * @param portPairs The pairs with bindings (host,container,host,container)
+     * @param callback The callback for the initialization
      * @return The identifier of the container
      */
     public String start(String image, String name, String cmd, String[] envs, Consumer<CreateContainerCmd> callback, Integer... portPairs) {
@@ -295,10 +296,9 @@ public class DockerEngine extends BaseParent {
         return docker.commitCmd(containerId).withRepository(repository).withTag(tag).exec();
     }
 
-    // /////////////////////////////////////////////////////////////////////////
-    // /// getters/setters
-    // /////////////////////////////////////////////////////////////////////////
-
+    ///////////////////////////////////////////////////////////////////////////
+    ///// getters/setters
+    ///////////////////////////////////////////////////////////////////////////
     /**
      * @return the client
      */
