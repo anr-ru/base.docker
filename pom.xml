@@ -5,11 +5,11 @@
     <parent>
         <groupId>org.anrruf</groupId>
         <artifactId>base.platform.parent</artifactId>
-        <version>2.5.0</version>
+        <version>2.6.0</version>
     </parent>
 
     <artifactId>base.docker</artifactId>
-    <version>2.5.0-SNAPSHOT</version>
+    <version>2.6.0-SNAPSHOT</version>
 
     <name>Base Utils for Docker</name>
     <description>A set of utils for working with Docker images/container from Java projects</description>
@@ -49,20 +49,16 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${google.guava.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.github.docker-java</groupId>
             <artifactId>docker-java</artifactId>
+            <version>${docker-java.version}</version>
         </dependency>
     </dependencies>
 
     <properties>
-        <base.utils.version>2.5.0</base.utils.version>
-        <base.tests.version>2.5.0</base.tests.version>
-        <google.guava.version>32.1.1-jre</google.guava.version>
+        <base.utils.version>2.6.0</base.utils.version>
+        <base.tests.version>2.6.0</base.tests.version>
+        <docker-java.version>3.3.2</docker-java.version>
     </properties>
 
 </project>
